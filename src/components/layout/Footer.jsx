@@ -1,123 +1,94 @@
-"use client";
-
-import InputField from "../ui/InputField";
 import Button from "../ui/Button";
-import Image from "next/image";
-import logoWhite from "../../assets/images/logoWhite.png";
-import footerLogo from "../../assets/images/footerLogo.png";
-import Link from "next/link";
+import Input from "../ui/Input";
+import logowhite from "../../assets/images/logoWhite.png";
+import footerlogo from "../../assets/images/footerLogo.png";
+import { Link } from "react-router-dom";
 import Icon from "../ui/Icon";
-import Tiktok from "../../assets/icons/social/Tiktok";
-import Instagram from "../../assets/icons/social/Instagram";
 import Facebook from "../../assets/icons/social/Facebook";
-import Twitter from "@/assets/icons/social/Twitter";
-import { companyLinks } from "../../data/menu/companyLinks";
+import Instagram from "../../assets/icons/social/Instagram";
+import Tiktok from "../../assets/icons/social/Tiktok";
+import Twitter from "../../assets/icons/social/Twitter";
 
 const Footer = () => {
   return (
-    <footer className="section-margin bg-blue rounded-[48px] text-white">
-      <div className="px-4 pt-4 pb-[40px] xl:pt-16 xl:px-18 lg:flex lg:items-center lg:justify-between lg:gap-[103px] xl:gap-[203px]">
-        <div className="lg:w-[510px]">
-          <h1 className="h1">
-            Join our KicksPlus <br /> Club & get 15% off
-          </h1>
-          <p className="text-natural-light p pt-2">
-            Sign up for free! Join the community.
-          </p>
-
-          <form className="flex gap-1 pt-6 flex-wrap">
-            <InputField
-              placeholder="Email address"
-              borderColor="border-white"
-              placeholderColor="placeholder:text-white"
-              textColor="text-white"
-              fieldContainerClassName="w-[57%] 2xl:w-[70%] "
-            />
-            <Button className="uppercase w-[40%] 2xl:w-[29%] justify-center">
-              Submit
-            </Button>
-          </form>
-        </div>
-        <Link href="/">
-          <Image
-            src={logoWhite}
-            alt=""
-            width={200}
-            height={61}
-            className="pt-8"
+    <>
+      <div className="bg-(--color-blue) p-4 rounded-tr-3xl rounded-tl-3xl lg:p-10  ">
+        <p className="text-3xl text-white font-semibold  ">
+          Join our KicksPlus Club & get 15% off
+        </p>
+        <p className="mt-2 text-(--color-gray) text-sm    ">
+          Join our KicksPlus Club & get 15% off
+        </p>
+        <div className="mt-6 flex gap-2 flex-wrap lg:flex-nowrap ">
+          <Input
+            type="email"
+            placholder="Email Address"
+            className="border-white"
+            placholderClasses="placholder:text-white "
           />
-        </Link>
+          <Button variant="outline" size="small">
+            SUMBMIT
+          </Button>
+        </div>
+        <div className="my-8">
+          <img src={logowhite} />
+        </div>
       </div>
 
-      <div className="px-4 pt-6  bg-dark-gray rounded-3xl lg:px-8 lg:pt-16">
-        <div className="flex gap-6 justify-between flex-wrap flex-row">
-          <div className="lg:w-[446px]">
-            <h6 className="text-yellow h5">About us</h6>
-            <p className="font-open-sans text-natural-light p">
+      <div className="bg-(--color-darkgray) p-0 -mt-5 rounded-3xl  ">
+        <div className="pt-6 px-4 lg:p-10 lg:grid grid-cols-4   ">
+          <div>
+            <h4 className="text-(--color-yellow) text-2xl  ">About us</h4>
+            <p className="text-(--color-gray)">
               We are the biggest hyperstore in the universe. We got you all
               cover with our exclusive collections and latest drops.
             </p>
           </div>
 
-          <div>
-            <h6 className="text-yellow h5">Categories</h6>
-            <ul className="font-open-sans text-natural-light p flex flex-col gap-2 mt-4">
-              <li>
-                <Link href="/collection/runners">Runners</Link>
-              </li>
-              <li>
-                <Link href="/collection/sneakers">Sneakers</Link>
-              </li>
-              <li>
-                <Link href="/collection/basketball">Basketball</Link>
-              </li>
-              <li>
-                <Link href="/collection/outdoor">Outdoor</Link>
-              </li>
-              <li>
-                <Link href="/collection/golf">Golf</Link>
-              </li>
-              <li>
-                <Link href="/collection/hiking">Hiking</Link>
-              </li>
-            </ul>
+          <div className="mt-6">
+            <h4 className="text-(--color-yellow) text-2xl  ">Collection</h4>
+            <nav className="text-(--color-gray) mt-2 flex flex-col gap-2 ">
+              <Link to="collection/all-products">All Products</Link>
+              <Link to="collection/cardboard-boxes">Cardboard Boxes</Link>
+              <Link to="collection/mailing-bags">Mailing Bags</Link>
+              <Link to="collection/envelopes">Envelopes</Link>
+              <Link to="collection/tapes">Tapes</Link>
+              <Link to="collection/labels">Labels</Link>
+            </nav>
           </div>
 
-          <div>
-            <h6 className="text-yellow h5">Useful links</h6>
-            <ul className="font-open-sans text-natural-light p flex flex-col gap-2 mt-4">
-              {companyLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-6">
+            <h4 className="text-(--color-yellow) text-2xl  ">Company</h4>
+            <nav className="text-(--color-gray) mt-2 flex flex-col gap-2 ">
+              <Link to="/about"> About </Link>
+              <Link to="/contact"> Contact </Link>
+              <Link to="/blogs"> Blogs </Link>
+            </nav>
           </div>
 
-          <div>
-            <h6 className="text-yellow h5">Follow us</h6>
-            <div className="font-open-sans text-natural-light p flex gap-2 mt-4">
-              <span>
-                <Icon icon={Facebook} type="text" size={24} />
-              </span>
-              <span>
-                <Icon icon={Instagram} type="text" size={24} />
-              </span>
-              <span>
-                <Icon icon={Twitter} type="text" size={24} />
-              </span>
-
-              <span>
-                <Icon icon={Tiktok} type="text" size={24} />
-              </span>
-            </div>
+          <div className="mt-6">
+            <h4 className="text-(--color-yellow) text-2xl  ">Follows</h4>
+            <nav className="text-(--color-gray) mt-2 flex  gap-2 ">
+              <Icon variant="text">
+                <Facebook color="#fff" />
+              </Icon>
+              <Icon variant="text">
+                <Instagram color="#fff" />
+              </Icon>
+              <Icon variant="text">
+                <Tiktok color="#fff" />
+              </Icon>
+              <Icon variant="text">
+                <Twitter color="#fff" />
+              </Icon>
+            </nav>
           </div>
         </div>
-        <div className="mt-8 lg:mt-16">
-          <Image src={footerLogo} alt="" className="m-auto" />
+        <div className="pt-10 flex justify-center items-center ">
+          <img src={footerlogo} />
         </div>
       </div>
-    </footer>
+    </>
   );
 };
 

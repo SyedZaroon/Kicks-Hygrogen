@@ -1,21 +1,26 @@
-export default function Facebook({
-    size = 24,
-    className = "",
-    
-}) {
-    return (
-        <svg
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={className}
-        >
-            <path
-                d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.57 6 13.5 6H16V9H14C13.45 9 13 9.45 13 10V12H16V15H13V21.95C18.05 21.45 22 17.19 22 12Z"
-                fill="currentColor"
-            />
-        </svg>
-    )
+import React from "react";
+
+const Facebook = ({ 
+  size = 24, 
+  color = "currentColor", // Tailwind classes (jaise text-blue-600) se color control karne ke liye
+  className = "" 
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`lucide lucide-facebook ${className}`}
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
 };
+
+export default Facebook;

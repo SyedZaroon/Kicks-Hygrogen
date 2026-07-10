@@ -1,153 +1,194 @@
-"use client";
+import { useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-import ProductImagesSlider from "@/components/sliders/ProductImagesSlider";
-import FeatureProducts from "@/components/sections/FeatureProducts";
-import VariantPicker from "@/components/sections/VariantPicker";
-import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
-import QuantitySelector from "@/components/ui/QuantitySelector";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import ProductGallery from '../components/product/ProductGallery';
+import ProductBadge from '../components/product/ProductBadge';
+import ProductTitle from '../components/product/ProductTitle';
+import ProductPrice from '../components/product/ProductPrice';
+import VariantPicker from '../components/product/VariantPicker';
+import QuantitySelector from '../components/product/QuantitySelector';
 
-export default function ProductPage({ product }) {
-  // Quantity Selector
-  const [qty, setQty] = useState(1);
+import { addToCart } from '../utils/cartService';
+import { PRODUCT_DETAILS_QUERY } from '../utils/getProductDetails';
 
-  // Variant Picker
-  const [selectedVariant, setSelectedVariant] = useState({});
+const ProductPage = () => {
+  const { collectionHandle, productHandle } = useParams();
+  const handle = productHandle;
 
-  // PRICE STATE
-  const [finalPrice, setFinalPrice] = useState(
-    product.sale_price || product.regular_price
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // Enable btn only if all variants selected
-  const btnDisabled = Object.values(selectedVariant).length !== 3;
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // ---------- FIXED PRICE CALCULATION ----------
+  // States for Active Variant tracking
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [activeVariant, setActiveVariant] = useState(null);
+
+  // Helper Functions text cleanup aur formatting ke liye
+  const SHOPIFY_PREFIX = "gid://shopify/ProductVariant/";
+  const getCleanId = (fullGid) => fullGid ? fullGid.replace(SHOPIFY_PREFIX, "") : "";
+  const getFullGid = (shortId) => shortId ? `${SHOPIFY_PREFIX}${shortId}` : "";
+
+  // Stock managment
+  const [quantity, setQuantity] = useState(1);
+
   useEffect(() => {
-    const basePrice = product.sale_price || product.regular_price;
-    setFinalPrice(basePrice * qty);
-  }, [qty, product.sale_price, product.regular_price]);
+    setQuantity(1);
+  }, [activeVariant]);
 
-  // ---------- ADD TO CART ----------
-  const handleAddToCart = () => {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      const url = `https://${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}/api/${import.meta.env.VITE_SHOPIFY_STORE_VERSION}/graphql.json`;
+      setLoading(true);
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN
+          },
+          body: JSON.stringify({
+            query: PRODUCT_DETAILS_QUERY,
+            variables: { handle }
+          })
+        });
 
-    const basePrice = product.sale_price || product.regular_price;
+        const result = await response.json();
+        const productData = result.data?.product;
 
-    cart.push({
-      id: product.id,
-      title: product.title,
-      price: basePrice, // single item price
-      total: basePrice * qty, // total price for qty
-      qty,
-      variants: selectedVariant,
-      image: product.images[0],
-      stock: product.stock,
-    });
+        if (productData) {
+          setProduct(productData);
+          const allVariants = productData.variants?.edges || [];
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.dispatchEvent(new Event("cart-updated"));
-    alert("Product added to cart!");
+          // 1. Incoming URL short ID ko full GID mein convert kar ke search karo
+          const urlVariantId = searchParams.get('variant');
+          const fullUrlGid = getFullGid(urlVariantId);
+          let targetVariant = allVariants.find(v => v.node.id === fullUrlGid);
+
+          // 2. Fallback: Lowest Price variant dhoondo agar URL id invalid ya blank ho
+          if (!targetVariant && allVariants.length > 0) {
+            const availableVariants = allVariants.filter(v => v.node.availableForSale);
+            const scanList = availableVariants.length > 0 ? availableVariants : allVariants;
+            targetVariant = [...scanList].sort(
+              (a, b) => parseFloat(a.node.price.amount) - parseFloat(b.node.price.amount)
+            )[0];
+          }
+
+          // 3. Set Default Selection States
+          if (targetVariant) {
+            const initialSelection = {};
+            targetVariant.node.selectedOptions.forEach(opt => {
+              initialSelection[opt.name] = opt.value;
+            });
+            setSelectedOptions(initialSelection);
+            setActiveVariant(targetVariant.node);
+
+            // URL Clean formatting apply ho rahi hai
+            const variantId = getCleanId(targetVariant.node.id);
+            setSearchParams({ variant: variantId }, { replace: true });
+          }
+        } else {
+          setError("Product not found");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (handle) fetchProductDetails();
+  }, [handle]);
+
+  // 🔄 User option tabdeel kare to state aur URL short id sync rahein
+  const handleOptionChange = (optionName, optionValue) => {
+    const updatedOptions = { ...selectedOptions, [optionName]: optionValue };
+    setSelectedOptions(updatedOptions);
+
+    const matched = product?.variants?.edges?.find(variant =>
+      variant.node.selectedOptions.every(opt => updatedOptions[opt.name] === opt.value)
+    );
+
+    if (matched) {
+      setActiveVariant(matched.node);
+      const cleanId = getCleanId(matched.node.id);
+      setSearchParams({ variant: cleanId });
+    }
   };
 
+  // Conditional Rendering State Blocks
+  if (loading) {
+    return <div className="p-10 text-center text-lg font-medium">Loading Product Details...</div>;
+  }
+
+  if (error) {
+    return <div className="p-10 text-center text-red-500 font-semibold">{error}</div>;
+  }
+
+
+
   return (
-    <>
-      <section className="section-margin lg:my-8 my-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8">
-          <div className="lg:sticky lg:top-8 self-start">
-            <ProductImagesSlider images={product.images} />
-          </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-[1.5fr_1fr]">
 
-          {/* PRODUCT INFO */}
-          <div className="flex flex-col justify-start">
-            {product.tags.slice(0, 1).map((tag) => (
-              <div className="w-[20%]" key={tag}>
-                <Badge>{tag}</Badge>
-              </div>
-            ))}
+        {/* Main Gallery Area */}
+        <ProductGallery
+          productImages={product?.images?.edges || []}
+          activeVariantImage={activeVariant?.image?.url || product?.featuredImage?.url}
+        />
 
-            <h5 className="h5 uppercase mt-4">
-              category: <span className="ml-2">{product.category}</span>
-            </h5>
+        {/* Product Details Content */}
+        <div>
+          <div className="flex flex-col gap-4">
+            <ProductBadge
+              type={product?.productType}
+            />
 
-            <h2 className="h3 mt-4">{product.title}</h2>
+            <ProductTitle
+              productTitle={product?.title}
+              selectedOptions={activeVariant?.selectedOptions || []}
+            />
 
-            {/* PRICE SECTION */}
+            <ProductPrice
+              price={activeVariant?.price}
+              compareAtPrice={activeVariant?.compareAtPrice}
+            />
 
-            {Object.values(selectedVariant).length === 3 && (
-              <div className="flex items-center gap-2">
-                <p className="mt-2 text-blue h5">${finalPrice}</p>
+            <VariantPicker
+              productOption={product?.options || []}
+              allVariants={product?.variants?.edges || []}
+              selectedOptions={selectedOptions}
+              onOptionChange={handleOptionChange}
+            />
 
-                {product.sale_price && (
-                  <p className="mt-2 text-error h5 line-through">
-                    ${product.regular_price}
-                  </p>
-                )}
-              </div>
-            )}
+            <QuantitySelector
+              quantity={quantity}
+              setQuantity={setQuantity}
+              maxStock={activeVariant?.quantityAvailable}
+            />
 
-            {/* VARIANTS */}
-            <div className="mt-6">
-              <VariantPicker
-                variants={product.variants}
-                selectedVariant={selectedVariant}
-                setSelectedVariant={setSelectedVariant}
-              />
-            </div>
-
-            {/* QTY */}
-            <div className="mb-4">
-              <QuantitySelector
-                stock={product.stock}
-                qty={qty}
-                setQty={setQty}
-              />
-            </div>
-
-            <h5 className="h5 uppercase mb-4">
-              Stock: <span className="ml-2">{product.stock}</span>
-            </h5>
-
-            <p className="text-gray-600 leading-relaxed">
-              {product.description}
-            </p>
-
-            {/* BUY NOW */}
-            <Link href="/checkout">
-              <Button
-                className="w-full mt-4 justify-center"
-                state="secondary"
-                disabled={btnDisabled}
-              >
-                Buy Now
-              </Button>
-            </Link>
-
-            <Link href="/cart">
-              <Button
-                className="w-full mt-4 justify-center"
-                disabled={btnDisabled}
-                onClick={handleAddToCart}
-              >
-                Add to Cart
-              </Button>
-            </Link>
+            {/* Add to Cart Trigger Button */}
+     <button 
+  onClick={async () => {
+    try {
+      await addToCart(activeVariant.id, quantity);
+      alert("Product added to cart!");
+    } catch (e) {
+      console.error("Cart error:", e);
+    }
+  }}
+  disabled={!activeVariant?.availableForSale}
+  className="..."
+>
+  Add To Cart
+</button>
           </div>
         </div>
-      </section>
 
-      {/* FEATURE PRODUCTS */}
-      {!!product.id && (
-        <section className="section-margin py-8">
-          <FeatureProducts
-            title="You may also like"
-            button={false}
-            titleClass="h2"
-          />
-        </section>
-      )}
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default ProductPage;

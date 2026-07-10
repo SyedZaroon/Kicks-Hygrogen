@@ -1,63 +1,40 @@
-"use client";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import React from "react";
+import Tick from "../../assets/icons/outline/Tick.jsx";
 
-const CheckBox = ({
-  label = "",
-  value = "",
-  name = "",
-  colorCode = "",
-  size = "",
-  checked = true,
-  onChange = () => {},
-  colorVariantClass = "w-12 h-12 rounded-xl",
-}) => {
+const sizeClasses = {
+  small: "w-6 h-6",
+  medium: "",
+  large: ""
+};
+
+const CheckBox = ({ size = "small", label }) => {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-        className="hidden"
-      />
-
-      {/* 🎨 Color box */}
-      {colorCode && (
+    <>
+      <label className="flex items-center gap-3 cursor-pointer select-none">
+        {/* Hidden native input for state management */}
+        <input type="checkbox" className="peer group sr-only" />
+        
+        {/* Custom Stylized Checkbox Box */}
         <div
-          className={` ${colorVariantClass} transition-all duration-200 ${
-            checked
-              ? "outline-2 outline-black outline-offset-2"
-              : "outline-2 outline-transparent outline-offset-2"
-          }`}
-          style={{ backgroundColor: colorCode }}
-        />
-      )}
-
-      {/* 📏 Size box */}
-      {size && (
-        <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center border border-gray-300 transition-all duration-200 ${
-            checked ? "bg-black text-white" : "bg-white"
-          }`}
+          className={`
+            ${sizeClasses[size]} rounded-xs border border-(--color-darkgray)
+            flex items-center justify-center
+            transition-all duration-200
+            peer-checked:bg-(--color-darkgray)
+            peer-checked:border-(--color-darkgray)
+            peer-focus:ring-2 peer-focus:ring-(--color-graymain)
+          `}
         >
-          <p>{label}</p>
+          {/* Container for the Tick icon */}
+          <div className="text-white w-5 h-5 flex items-center justify-center">
+            <Tick color="#fff" />
+          </div>
         </div>
-      )}
 
-      {/* 🏷 Default label + custom small square */}
-      {!colorCode && !size && (
-        <div className="flex items-center gap-2">
-          <div
-            className={`w-4 h-4 border border-gray-400 rounded-sm transition-all duration-200 ${
-              checked ? "bg-black" : "bg-white"
-            }`}
-          ></div>
-          <span>{label}</span>
-        </div>
-      )}
-    </label>
+        {/* Label Text */}
+        <span className="text-gray-700 font-medium">{label}</span>
+      </label>
+    </>
   );
 };
 

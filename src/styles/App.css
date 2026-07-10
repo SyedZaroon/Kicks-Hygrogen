@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+@import "tailwindcss";
+
+:root {
+    --color-blue: rgba(74, 105, 226, 1);
+    --color-yellow: rgba(255, 165, 47, 1);
+    --color-white: rgba(255, 255, 255, 1);
+    --color-fawhite: rgba(250, 250, 250, 1);
+    --color-gray: rgba(231, 231, 227, 1);
+    --color-graymain: rgba(112, 112, 110, 1);
+    --color-darkgray: rgba(35, 35, 33, 1);
+    --color-neutrals-gray-1: rgba(233, 233, 234, 1);
+    --color-neutrals-gray-2: #D2D1D3;
+    --color-neutrals-gray-3: #BCBBBE;
+    --color-neutrals-gray-4: #A5A3A7;
+    --color-neutrals-gray-5: #8F8C91;
+    --color-neutrals-gray-6: #79767C;
+    --color-neutrals-gray-9: #36323B;
+    --color-neutrals-gray-10: #1F1A24;
+    --color-black: #000000;
+    --color-sucess: #008B28;
+    --color-error: #DA1E28;
+    --color-bg: #E7E7E3;
+
+    --font-open-sans: 'Open Sans', sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+
+    --breakpoint-xs: 320px;
+    --breakpoint-sm: 375px;
+    --breakpoint-md: 425px;
+    --breakpoint-lg: 768px;
+    --breakpoint-xl: 1024px;
+    --breakpoint-2xl: 1440px;
+}
+
+@utility section-margin {
+    margin-inline: clamp(16px, 4vw, 60px);
+}
+
+@utility section-padding {
+    padding-inline: clamp(16px, 4vw, 60px);
+}
+
+@utility section-heading {
+    font-size: clamp(24px, 6.5vw, 74px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h1 {
+    font-size: clamp(36px, 11.8vw, 48px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h2 {
+    font-size: clamp(32px, 11.8vw, 36px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h3 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h4 {
+    font-size: clamp(16px, 2vw, 24px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h5 {
+    font-size: clamp(14px, 11vw, 20px);
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility h6 {
+    font-size: 16px;
+    font-family: var(--font-rubik);
+    font-weight: 600;
+    line-height: 100%;
+}
+
+@utility p {
+    font-size: 16px;
+    font-family: var(--font-open-sans);
+    font-weight: 400;
+    line-height: 30px;
+}
+
+body {
+    padding-top: clamp(24px, calc(22px + 0.625vw), 32px);
+    padding-bottom: clamp(24px, calc(22px + 0.625vw), 32px);
+    padding-right: clamp(16px, calc(5px + 3.438vw), 60px);
+    padding-left: clamp(16px, calc(5px + 3.438vw), 60px);
+    background-color: var(--color-gray);
+}

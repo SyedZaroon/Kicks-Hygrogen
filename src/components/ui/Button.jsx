@@ -1,44 +1,53 @@
+import React from "react";
+
 const Button = ({
-  type = "fill",
+  variant = "fill",
+  size = "small",
   disabled = false,
   className = "",
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
-  state = "primary",
   children,
   onClick,
-  iconclass = "",
+  iconClass = "",
   iconSize = 16,
+  type = "button"
 }) => {
-  const baseClasses = `rounded-lg font-inter weight-medium text-sm flex items-center gap-1 p-4 hover:outline-1 hover:cursor-pointer ${
-    state === "primary" ? "hover:outline-dark-gray" : "hover:outline-blue"
-  }  `;
-
-  const buttonClasses = {
-    fill: {
-      wrapper: ` ${
-        state === "primary" ? "bg-dark-gray" : "bg-blue"
-      } hover:outline-offset-2`,
-      disabled: "bg-neutrals-gray-2",
-    },
-    outline: {
-      wrapper: ` border-dark-gray border`,
-      disabled: "border",
-    },
-    text: "",
+  const variantClasses = {
+    fill: "bg-(--color-darkgray) border-1 hover:outline hover:outline-(--color-darkgray)",
+    outline: "border border-(--color-darkgray) text-(--color-darkgray) hover:outline hover:outline-(--color-darkgray)",
+    text: "bg-transparent text-(--color-darkgray) hover:text-(--color-neutrals-gray-10)"
   };
+
+  // Size classes
+  const sizeClasses = {
+    small: "py-2 px-4 text-sm",
+    medium: "px-4 py-3 text-base",
+    large: "px-4 py-4 text-lg"
+  };
+
   return (
     <button
-      className={` ${
-        disabled
-          ? `${buttonClasses[type].disabled} cursor-not-allowed text-neutrals-gray-5`
-          : ` ${buttonClasses[type].wrapper}`
-      } ${baseClasses} text-white ${className}`}
+      type={type}
+      disabled={disabled}
       onClick={onClick}
+      className={`
+        flex items-center gap-1 rounded-lg 
+        ${variantClasses[variant]}
+        ${sizeClasses[size]}
+        ${disabled && variant === "fill" ? "bg-(--color-neutrals-gray-2) cursor-not-allowed text-(--color-neutrals-gray-5) hover:outline-0 border-(--color-neutrals-gray-2)" : ""}
+        ${disabled && variant === "outline" ? "cursor-not-allowed text-(--color-neutrals-gray-5) hover:outline-0 border-(--color-neutrals-gray-2)" : ""}
+        ${disabled && variant === "text" ? "cursor-not-allowed text-(--color-neutrals-gray-5) hover:text-(--color-neutrals-gray-5)!" : ""}
+        ${className}
+      `}
     >
-      {LeftIcon && <LeftIcon className={iconclass} size={iconSize} />}
+      {/* Left Icon if available */}
+      {LeftIcon && <LeftIcon className={iconClass} size={iconSize} />}
+      
       {children}
-      {RightIcon && <RightIcon className={iconclass} size={iconSize} />}
+      
+      {/* Right Icon if available */}
+      {RightIcon && <RightIcon className={iconClass} size={iconSize} />}
     </button>
   );
 };

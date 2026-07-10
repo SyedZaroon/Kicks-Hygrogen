@@ -62,7 +62,6 @@ const Footer = () => {
             <nav className="text-(--color-gray) mt-2 flex flex-col gap-2 ">
               <Link to="/about"> About </Link>
               <Link to="/contact"> Contact </Link>
-              <Link to="/blogs"> Blogs </Link>
             </nav>
           </div>
 

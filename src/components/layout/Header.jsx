@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import Icon from "../ui/Icon.jsx";
@@ -8,6 +8,16 @@ import BarsFill from "../../assets/icons/fill/BarsFill.jsx";
 import MobileMenu from "./MobileMenu.jsx";
 
 const Header = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
       <header className="bg-white xl:p-8 xl:rounded-3xl flex justify-between items-center p-4 rounded-xl">
@@ -23,12 +33,24 @@ const Header = () => {
 
         {/* Mobile Menu Icon */}
         <div className="block xl:hidden">
-          <Icon variant="text">
+          <Icon variant="text" onClick={() => setIsMobileMenuOpen(true)}>
             <BarsFill />
           </Icon>
         </div>
 
-        <MobileMenu />
+        {isMobileMenuOpen && (
+          <button
+            type="button"
+            aria-label="Close mobile menu"
+            className="xl:hidden fixed inset-0 z-40 bg-black/60"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+
+        <MobileMenu
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+        />
 
         {/* Logo */}
         <div className="xl:w-32 xl:h-8 w-20 h-5">

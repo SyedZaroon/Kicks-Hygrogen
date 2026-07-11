@@ -1,15 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
-import {PRODUCTS} from "../../data/ProductSliderData"
 import ArrowLeft from "../../assets/icons/fill/ArrowLeft";
 import ArrowRight from "../../assets/icons/fill/ArrowRight";
-import ShoppingBag from "../../assets/icons/fill/ShoppingBag"
-
-
+import ShoppingBag from "../../assets/icons/fill/ShoppingBag";
+import { useStorefrontQuery } from "../../hooks/useStorefrontQuery";
+import { COLLECTION_PRODUCTS_QUERY } from "../../utils/getAllProducts";
+import { Link } from "react-router-dom";
 
 export default function ProductSlider({
   title = "DON'T MISS OUT",
   accent = "NEW DROPS",
-  products = PRODUCTS,
   onViewAll,
   onAddToCart,
   onSelectProduct,
@@ -44,6 +43,22 @@ export default function ProductSlider({
     const amount = card ? card.getBoundingClientRect().width + 16 : 300;
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
+
+  const { data, loading, error } = useStorefrontQuery(
+    COLLECTION_PRODUCTS_QUERY,
+    {
+      handle: "all-products",
+      first: 5,
+      after: null,
+    },
+  );
+
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>Failed to load products.</p>;
+
+  const productEdges = data?.collection?.products?.edges ?? [];
+
+  console.log(productEdges);
 
   return (
     <section className="w-full">
@@ -97,123 +112,60 @@ export default function ProductSlider({
         ref={trackRef}
         className="kicks-track flex gap-4 overflow-x-auto pb-2"
       >
-        {products.map((p) => (
-          <article key={p.id} className="kicks-card flex-shrink-0 group">
-            <div
-              className="relative overflow-hidden rounded-xl mb-3"
-              style={{
-                backgroundColor: "var(--color-fawhite)",
-                aspectRatio: "1 / 1",
-              }}
-            >
-              {p.tag && (
-                <span
-                  className="absolute top-3 left-3 z-10 px-2.5 py-1 text-[10px] font-semibold rounded-full font-[family-name:var(--font-inter)]"
-                  style={{
-                    backgroundColor:
-                      p.tag.startsWith("-") ?
-                        "var(--color-darkgray)"
-                      : "var(--color-blue)",
-                    color: "var(--color-white)",
-                  }}
-                >
-                  {p.tag}
-                </span>
-              )}
-              <button
-                onClick={() => onAddToCart && onAddToCart(p)}
-                aria-label={`Add ${p.name} to cart`}
-                className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0"
-                style={{ backgroundColor: "var(--color-white)" }}
+        {productEdges.map(({ node: p }) => {
+          const firstVariant = p.variants?.edges?.[0]?.node;
+          const price = firstVariant?.price;
+
+          return (
+            <article key={p.id} className="kicks-card flex-shrink-0 group">
+              <div
+                className="relative overflow-hidden rounded-xl mb-3"
+                style={{
+                  backgroundColor: "var(--color-fawhite)",
+                  aspectRatio: "1 / 1",
+                }}
               >
-                <ShoppingBag size={15} iconColor="var(--color-darkgray)" />
-              </button>
+                <button
+                  onClick={() => onAddToCart && onAddToCart(p)}
+                  aria-label={`Add ${p.title} to cart`}
+                  className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0"
+                  style={{ backgroundColor: "var(--color-white)" }}
+                >
+                  <ShoppingBag size={15} iconColor="var(--color-darkgray)" />
+                </button>
+                <Link
+                  to={`/collection/all-products/product/${p.handle}`}
+                  className="absolute inset-0 w-full h-full"
+                  aria-label={`View ${p.title}`}
+                >
+                  <img
+                    src={p.featuredImage?.url}
+                    alt={p.featuredImage?.altText || p.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    draggable={false}
+                  />
+                </Link>
+              </div>
+
+              <p
+                className="text-xs mb-1 font-[family-name:var(--font-open-sans)]"
+                style={{ color: "var(--color-graymain)" }}
+              >
+                {p.productType}
+              </p>
               <button
                 onClick={() => onSelectProduct && onSelectProduct(p)}
-                className="absolute inset-0 w-full h-full"
-                aria-label={`View ${p.name}`}
+                className="h6 mb-1.5 text-left block"
+                style={{ color: "var(--color-darkgray)" }}
               >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  draggable={false}
-                />
+                {p.title}
               </button>
-            </div>
-
-            <p
-              className="text-xs mb-1 font-[family-name:var(--font-open-sans)]"
-              style={{ color: "var(--color-graymain)" }}
-            >
-              {p.category}
-            </p>
-            <button
-              onClick={() => onSelectProduct && onSelectProduct(p)}
-              className="h6 mb-1.5 text-left block"
-              style={{ color: "var(--color-darkgray)" }}
-            >
-              {p.name}
-            </button>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-baseline gap-2 font-[family-name:var(--font-open-sans)]">
-                <span
-                  className="text-sm font-semibold"
-                  style={{ color: "var(--color-darkgray)" }}
-                >
-                  ${p.price}
-                </span>
-                {p.compareAt && (
-                  <span
-                    className="text-xs"
-                    style={{
-                      color: "var(--color-graymain)",
-                      textDecoration: "line-through",
-                    }}
-                  >
-                    ${p.compareAt}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-1">
-                {p.colors.map((c, i) => (
-                  <span
-                    key={i}
-                    className="rounded-full"
-                    style={{
-                      width: 10,
-                      height: 10,
-                      backgroundColor: c,
-                      border:
-                        c === "var(--color-white)" ?
-                          "1px solid var(--color-gray)"
-                        : "none",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
+
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-        :root {
-          --color-blue: rgba(74, 105, 226, 1);
-          --color-yellow: rgba(255, 165, 47, 1);
-          --color-white: rgba(255, 255, 255, 1);
-          --color-fawhite: rgba(250, 250, 250, 1);
-          --color-gray: rgba(231, 231, 227, 1);
-          --color-graymain: rgba(112, 112, 110, 1);
-          --color-darkgray: rgba(35, 35, 33, 1);
-          --font-open-sans: 'Open Sans', sans-serif;
-          --font-rubik: 'Rubik', sans-serif;
-          --font-inter: 'Inter', sans-serif;
-        }
-        .section-padding { padding-inline: clamp(16px, 4vw, 60px); }
-        .h3 { font-size: clamp(24px, 3vw, 32px); font-family: var(--font-rubik); font-weight: 600; line-height: 100%; }
-        .h6 { font-size: 16px; font-family: var(--font-rubik); font-weight: 600; line-height: 100%; }
         .kicks-track { scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
         .kicks-track::-webkit-scrollbar { display: none; }
         .kicks-card { scroll-snap-align: start; width: 88%; }

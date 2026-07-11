@@ -1,46 +1,47 @@
+import royalMailBox from "../assets/images/sliderImages/royal-mail-box-slider1.png";
+import featherpostPaddedEnvelopes from "../assets/images/sliderImages/featherpost-slider2.png";
+import grayMailingBags from "../assets/images/sliderImages/grayMailingBags.png";
+import directThermalLabels from "../assets/images/sliderImages/directThermalLabels.png";
+
 export const SLIDES = [
   {
-    id: "air-max",
-    tag: "NEW DROP",
-    headline: "DO IT",
-    accent: "RIGHT",
-    body: "The Air Max you've been waiting for. Built for the street, made to last.",
-    cta: "Shop Air Max",
-    href: "/products/air-max",
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop",
+    id: "royal-mail-pip-boxes",
+    tag: "PACKAGING ESSENTIALS",
+    headline: "SHIP WITH",
+    accent: "CONFIDENCE",
+    body: "Strong Royal Mail PiP boxes designed to protect your products during shipping while meeting postal size requirements.",
+    cta: "Shop Now",
+    href: "http://localhost:5173/collection/cardboard-boxes/product/royal-mail-pip-boxes?variant=58313011659101",
+    image: royalMailBox,
   },
   {
-    id: "sale",
-    tag: "LIMITED TIME",
-    headline: "GET 30%",
-    accent: "OFF",
-    body: "Selected styles, this week only. Once they're gone, they're gone.",
-    cta: "Shop the sale",
-    href: "/sale",
-    image:
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1600&auto=format&fit=crop",
+    id: "featherpost-padded-envelopes",
+    tag: "SAFE DELIVERY",
+    headline: "PROTECT EVERY",
+    accent: "PACKAGE",
+    body: "Premium Featherpost padded envelopes provide lightweight cushioning to keep fragile items secure in transit.",
+    cta: "Shop Now",
+    href: "http://localhost:5173/collection/all-products/product/featherpost-envelope-padded-bubble-mailer",
+    image: featherpostPaddedEnvelopes,
   },
   {
-    id: "runner",
-    tag: "JUST IN",
-    headline: "STEP INTO",
-    accent: "SOMETHING NEW",
-    body: "The latest runners, built for pace and built for pavement.",
-    cta: "Shop runners",
-    href: "/category/running",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1600&auto=format&fit=crop",
+    id: "",
+    tag: "E-COMMERCE READY",
+    headline: "PACK SMART",
+    accent: "& SECURE",
+    body: "Durable gray mailing bags with strong adhesive seals for reliable, tamper-resistant shipping of clothing and everyday parcels.",
+    cta: "Shop Now",
+    href: "http://localhost:5173/collection/all-products/product/grey-mailing-bags",
+    image: grayMailingBags,
   },
   {
-    id: "hoops",
-    tag: "COURT READY",
-    headline: "OWN THE",
-    accent: "COURT",
-    body: "Grip, support, and style that keeps up with your game.",
-    cta: "Shop basketball",
-    href: "/category/basketball",
-    image:
-      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1600&auto=format&fit=crop",
+    id: "direct-thermal-labels",
+    tag: "SHIPPING MADE EASY",
+    headline: "PRINT WITH",
+    accent: "PRECISION",
+    body: "High-quality direct thermal labels deliver crisp, smudge-free printing for fast and accurate order fulfillment.",
+    cta: "Shop Now",
+    href: "http://localhost:5173/collection/all-products/product/coloured-mailing-bags",
+    image: directThermalLabels,
   },
 ];

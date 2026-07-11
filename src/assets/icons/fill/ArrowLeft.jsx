@@ -16,9 +16,9 @@ const ArrowLeft = ({
         <path
           d="M11.4375 18.75L4.6875 12L11.4375 5.25M5.625 12H19.3125"
           stroke={iconColor}
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </>

@@ -19,6 +19,12 @@ const ProductCard = ({ product, handle }) => {
       : `£${minPrice.toFixed(2)} - £${maxPrice.toFixed(2)}`;
   }
 
+  console.log(handle)
+
+  const productUrl = handle 
+    ? `/collection/${handle}/product/${product.handle}`
+    : `/product/${product.handle}`;
+
   return (
     <div className="group border border-gray-200 rounded-xl p-4 flex flex-col justify-between bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div>
@@ -51,7 +57,7 @@ const ProductCard = ({ product, handle }) => {
         </p>
         
         <NavLink 
-          to={availableVariants.length === 0 ? "#" : `/collection/${handle}/product/${product.handle}`}
+          to={availableVariants.length === 0 ? "#" : productUrl}
           className={`w-full py-2.5 font-semibold text-sm rounded-lg text-center block transition-all duration-150 ${
             availableVariants.length === 0
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none'

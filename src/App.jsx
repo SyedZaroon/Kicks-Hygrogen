@@ -7,6 +7,7 @@ import CartPage from "./pages/Cartpage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import SearchPage from "./pages/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "collection/:collectionHandle/product/:productHandle",
         element: <ProductPage />,
+      },
+      {
+        path: "product/:productHandle",
+        element: <ProductPage />,
+      },
+      {
+        path: "search",
+        element: <SearchPage />
       },
       {
         path: "cart",

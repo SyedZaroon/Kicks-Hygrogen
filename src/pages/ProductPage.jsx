@@ -10,6 +10,7 @@ import QuantitySelector from '../components/product/QuantitySelector';
 
 import { addToCart } from '../utils/cartService';
 import { PRODUCT_DETAILS_QUERY } from '../utils/getProductDetails';
+import NotFound from './NotFound';
 
 const ProductPage = () => {
   const { collectionHandle, productHandle } = useParams();
@@ -39,6 +40,11 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProductDetails = async () => {
+      
+      setLoading(true);
+      setError(null);
+      setProduct(null);
+
       const url = `https://${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}/api/${import.meta.env.VITE_SHOPIFY_STORE_VERSION}/graphql.json`;
       setLoading(true);
       try {
@@ -123,7 +129,7 @@ const ProductPage = () => {
   }
 
   if (error) {
-    return <div className="p-10 text-center text-red-500 font-semibold">{error}</div>;
+    return <NotFound />;
   }
 
 

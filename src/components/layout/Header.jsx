@@ -1,22 +1,26 @@
+// Header.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import Icon from "../ui/Icon.jsx";
 import SearchFill from "../../assets/icons/fill/SearchFill.jsx";
 import UserFill from "../../assets/icons/fill/UserFill.jsx";
 import BarsFill from "../../assets/icons/fill/BarsFill.jsx";
 import MobileMenu from "./MobileMenu.jsx";
+import SearchOverlay from "../search/SearchBox.jsx";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    document.body.style.overflow =
+      isMobileMenuOpen || isSearchOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isSearchOpen]);
 
   return (
     <>
@@ -61,7 +65,7 @@ const Header = () => {
 
         {/* Right Side Icons & Cart Count */}
         <div className="flex xl:gap-10 items-center gap-3">
-          <Icon variant="text" className="hidden! xl:inline-flex!">
+          <Icon variant="text" onClick={() => setIsSearchOpen(true)}>
             <SearchFill />
           </Icon>
           <Icon variant="text">
@@ -72,6 +76,11 @@ const Header = () => {
           </div>
         </div>
       </header>
+
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </>
   );
 };

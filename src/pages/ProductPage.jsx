@@ -7,6 +7,7 @@ import ProductTitle from '../components/product/ProductTitle';
 import ProductPrice from '../components/product/ProductPrice';
 import VariantPicker from '../components/product/VariantPicker';
 import QuantitySelector from '../components/product/QuantitySelector';
+import ProductDescription from '../components/product/ProductDescription';
 
 import { addToCart } from '../utils/cartService';
 import { PRODUCT_DETAILS_QUERY } from '../utils/getProductDetails';
@@ -130,6 +131,7 @@ const ProductPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+
       <div className="flex flex-col gap-6 md:grid md:grid-cols-[1.5fr_1fr]">
 
         <ProductGallery
@@ -183,6 +185,12 @@ const ProductPage = () => {
           </div>
         </div>
 
+      </div>
+
+<div className='mt-12' >
+      <ProductDescription
+        productDescription={product?.description}
+      />
       </div>
     </div>
   );

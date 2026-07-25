@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import ArrowLeft from "../../assets/icons/fill/ArrowLeft";
 import ArrowRight from "../../assets/icons/fill/ArrowRight";
 import { useStorefrontQuery } from "../../hooks/useStorefrontQuery.js";
@@ -49,7 +49,6 @@ export default function CollectionSlider({
     const card = el.querySelector(".kicks-collection-card");
     if (!card) return;
 
-    // Width + Gap (16px)
     const amount = card.getBoundingClientRect().width + 16;
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
@@ -72,7 +71,7 @@ export default function CollectionSlider({
           {title} <span style={{ color: "var(--color-blue)" }}>{accent}</span>
         </h3>
 
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           {onViewAll && (
             <button
               onClick={onViewAll}
@@ -119,7 +118,7 @@ export default function CollectionSlider({
           <Link
             key={c.id}
             to={`/collection/${c.handle}`}
-            className="kicks-collection-card flex-shrink-0 group relative overflow-hidden rounded-xl text-left"
+            className="kicks-collection-card shrink-0 group relative overflow-hidden rounded-xl text-left"
             style={{ aspectRatio: "4 / 5" }}
           >
             <img

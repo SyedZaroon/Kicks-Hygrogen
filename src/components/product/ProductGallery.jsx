@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 const ProductGallery = ({ productImages, activeVariantImage }) => {
-  // Initial state activeVariantImage par set karein, fallback thumbnail par
   const [mainImage, setMainImage] = useState(
     activeVariantImage || productImages?.[0]?.node?.url || ""
   );
 
-  // 🔄 STAGE: Variant Change Detector Effect
   useEffect(() => {
     if (activeVariantImage) {
       setMainImage(activeVariantImage);
     }
-  }, [activeVariantImage]); // 👈 Jab bhi activeVariantImage badlegi, yeh chalega
+  }, [activeVariantImage]);
 
-  // 🔄 STAGE: Initial Load Effect (Jab images API se pehli baar aayengi)
   useEffect(() => {
     if (!activeVariantImage && productImages?.length > 0) {
       setMainImage(productImages[0]?.node?.url);
@@ -22,7 +19,6 @@ const ProductGallery = ({ productImages, activeVariantImage }) => {
 
   return (
     <div className="flex gap-6 select-none">
-      {/* 1. Left Sidebar Thumbnails */}
       {productImages?.length > 1 && (
         <div className="flex flex-col gap-2 max-h-112 overflow-y-auto">
           {productImages.map((image, index) => {
@@ -50,7 +46,6 @@ const ProductGallery = ({ productImages, activeVariantImage }) => {
         </div>
       )}
 
-      {/* 2. Main Large Active Image Display */}
       <div className="w-full h-112 bg-gray-50 rounded-xl overflow-hidden border border-gray-100">
         {mainImage ? (
           <img

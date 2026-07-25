@@ -1,9 +1,5 @@
-import React from 'react';
 
 const ProductTitle = ({ productTitle, selectedOptions = [], className }) => {
-  
-  // Console check ke array ke andar actual keys kya hain (e.g., {name, value})
-  console.log("ProductTitle Rendered with Options:", selectedOptions);
 
   return (
     <div>

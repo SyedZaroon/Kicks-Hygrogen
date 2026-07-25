@@ -1,12 +1,9 @@
-// SearchOverlay.jsx
-
 import { useEffect, useRef, useState } from "react";
 import Icon from "../ui/Icon";
 import { useNavigate } from "react-router-dom";
 import SearchFill from "../../assets/icons/fill/SearchFill";
-import { SEARCH_PRODUCTS_QUERY } from "../../utils/searchProducts"; // Aapki query ka path
+import { SEARCH_PRODUCTS_QUERY } from "../../utils/searchProducts";
 
-// Real Shopify API search function
 const searchShopifyProducts = async (query) => {
   if (!query.trim()) return [];
 
@@ -22,8 +19,8 @@ const searchShopifyProducts = async (query) => {
       body: JSON.stringify({
         query: SEARCH_PRODUCTS_QUERY,
         variables: { 
-          query: query, // Shopify ke liye search term
-          first: 5 // Overlay mein max 5 products dikhane ke liye
+          query: query, 
+          first: 5 
         },
       }),
     });
@@ -31,7 +28,6 @@ const searchShopifyProducts = async (query) => {
     const result = await response.json();
     const edges = result.data?.products?.edges || [];
 
-    // Shopify data format ko clean format mein convert karna
     return edges.map(({ node }) => ({
       id: node.id,
       slug: node.handle,
@@ -44,9 +40,7 @@ const searchShopifyProducts = async (query) => {
   }
 };
 
-// Related / suggested searches jab kuch match na mile ya empty ho
 const relatedSuggestions = [
-  "Cardboard Boxes",
   "Mailing Bags",
   "Envelopes",
   "Tapes",
@@ -80,7 +74,7 @@ const SearchBox = ({ isOpen, onClose }) => {
       const data = await searchShopifyProducts(query);
       setResults(data);
       setIsSearching(false);
-    }, 300); // debounce
+    }, 300);
 
     return () => clearTimeout(timeout);
   }, [query]);
@@ -101,7 +95,6 @@ const SearchBox = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60">
-      {/* Backdrop click to close */}
       <button
         type="button"
         aria-label="Close search"
@@ -136,7 +129,6 @@ const SearchBox = ({ isOpen, onClose }) => {
             <p className="text-sm text-gray-500">Searching...</p>
           )}
 
-          {/* Case 1: Products found */}
           {!isSearching && query.trim() && results.length > 0 && (
             <ul className="flex flex-col gap-3">
               {results.map((product) => (
@@ -168,7 +160,6 @@ const SearchBox = ({ isOpen, onClose }) => {
             </ul>
           )}
 
-          {/* Case 2: No products found -> related searches */}
           {!isSearching && query.trim() && results.length === 0 && (
             <div>
               <p className="text-gray-600 mb-3">
@@ -190,7 +181,6 @@ const SearchBox = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* Case 3: Empty input -> popular/recent searches */}
           {!query.trim() && (
             <div>
               <p className="text-sm font-semibold mb-2">Popular searches</p>

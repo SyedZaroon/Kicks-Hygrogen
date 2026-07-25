@@ -58,21 +58,18 @@ export default function ProductSlider({
 
   const productEdges = data?.collection?.products?.edges ?? [];
 
-  console.log(productEdges);
-
   return (
     <section className="w-full">
-      {/* header */}
       <div className="flex items-end justify-between mb-5">
         <h3 className="h3" style={{ color: "var(--color-darkgray)" }}>
           {title} <span style={{ color: "var(--color-blue)" }}>{accent}</span>
         </h3>
 
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           {onViewAll && (
             <button
               onClick={onViewAll}
-              className="hidden sm:inline text-sm font-medium font-[family-name:var(--font-inter)]"
+              className="hidden sm:inline text-sm font-medium"
               style={{ color: "var(--color-graymain)" }}
             >
               View all
@@ -107,7 +104,6 @@ export default function ProductSlider({
         </div>
       </div>
 
-      {/* track */}
       <div
         ref={trackRef}
         className="kicks-track flex gap-4 overflow-x-auto pb-2"
@@ -117,7 +113,7 @@ export default function ProductSlider({
           const price = firstVariant?.price;
 
           return (
-            <article key={p.id} className="kicks-card flex-shrink-0 group">
+            <article key={p.id} className="kicks-card shrink-0 group">
               <div
                 className="relative overflow-hidden rounded-xl mb-3"
                 style={{
@@ -148,7 +144,7 @@ export default function ProductSlider({
               </div>
 
               <p
-                className="text-xs mb-1 font-[family-name:var(--font-open-sans)]"
+                className="text-xs mb-1 "
                 style={{ color: "var(--color-graymain)" }}
               >
                 {p.productType}

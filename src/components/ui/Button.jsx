@@ -1,5 +1,3 @@
-import React from "react";
-
 const Button = ({
   variant = "fill",
   size = "small",
@@ -21,7 +19,6 @@ const Button = ({
     text: "bg-transparent text-(--color-darkgray) hover:text-(--color-neutrals-gray-10)",
   };
 
-  // Size classes
   const sizeClasses = {
     small: "py-2 px-4 text-sm",
     medium: "px-4 py-3 text-base",
@@ -43,14 +40,12 @@ const Button = ({
         ${className}
       `}
     >
-      {/* Left Icon if available */}
       {LeftIcon && (
         <LeftIcon iconColor={iconColor} className={iconClass} size={iconSize} />
       )}
 
       {children}
 
-      {/* Right Icon if available */}
       {RightIcon && (
         <RightIcon
           iconColor={iconColor}

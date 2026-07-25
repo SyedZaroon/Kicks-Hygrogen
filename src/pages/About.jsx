@@ -22,7 +22,7 @@ const About = () => {
 
   return (
     <div className="py-8">
-      <section className="rounded-[32px] bg-white p-4 my-4 sm:p-6 lg:p-10">
+      <section className="rounded-4xl bg-white p-4 my-4 sm:p-6 lg:p-10">
         <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-4">
             <Badge text="About us" />
@@ -54,7 +54,7 @@ const About = () => {
 
       <section className="grid gap-4 lg:grid-cols-3">
         {values.map((value) => (
-          <div key={value.title} className="rounded-[24px] bg-white p-5 shadow-sm">
+          <div key={value.title} className="rounded-3xl bg-white p-5 shadow-sm">
             <h3 className="mb-2 text-xl font-semibold text-(--color-darkgray)">{value.title}</h3>
             <p className="text-sm leading-7 text-(--color-neutrals-gray-9)">{value.text}</p>
           </div>

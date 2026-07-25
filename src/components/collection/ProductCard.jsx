@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ProductCard = ({ product, handle }) => {
@@ -18,8 +17,6 @@ const ProductCard = ({ product, handle }) => {
       ? `£${minPrice.toFixed(2)}` 
       : `£${minPrice.toFixed(2)} - £${maxPrice.toFixed(2)}`;
   }
-
-  console.log(handle)
 
   const productUrl = handle 
     ? `/collection/${handle}/product/${product.handle}`

@@ -43,7 +43,6 @@ export default function ReviewsSlider({
 
   return (
     <section className="w-full">
-      {/* header */}
       <div className="flex items-end justify-between mb-5">
         <h3 className="h3" style={{ color: "var(--color-darkgray)" }}>
           {title} <span style={{ color: "var(--color-blue)" }}>{accent}</span>
@@ -77,7 +76,6 @@ export default function ReviewsSlider({
         </div>
       </div>
 
-      {/* track */}
       <div
         ref={trackRef}
         className="kicks-review-track flex gap-4 overflow-x-auto pb-2"

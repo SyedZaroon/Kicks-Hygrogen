@@ -6,7 +6,7 @@ import Badge from "../components/ui/Badge";
 const Contact = () => {
   return (
     <div className="space-y-6 py-8">
-      <section className="rounded-[32px] bg-white p-4 sm:p-6 lg:p-10">
+      <section className="rounded-4xl bg-white p-4 sm:p-6 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div className="space-y-4">
             <Badge text="Contact us" />
@@ -17,7 +17,7 @@ const Contact = () => {
               Need help choosing the right boxes, labels, or shipping essentials? Send us a message and our team will be in touch shortly.
             </p>
 
-            <div className="space-y-3 rounded-[24px] bg-(--color-fawhite) p-5">
+            <div className="space-y-3 rounded-3xl bg-(--color-fawhite) p-5">
               <div>
                 <h3 className="text-lg font-semibold text-(--color-darkgray)">Email</h3>
                 <p className="text-sm text-(--color-neutrals-gray-9)">hello@kicksstore.com</p>

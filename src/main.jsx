@@ -4,8 +4,6 @@ import App from "./App";
 import "./styles/App.css";
 import { ShopifyProvider } from "@shopify/hydrogen-react";
 
-console.log("Domain:", import.meta.env.VITE_SHOPIFY_STORE_DOMAIN);
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ShopifyProvider

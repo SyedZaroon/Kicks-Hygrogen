@@ -1,5 +1,3 @@
-import React from 'react';
-
 const VariantPicker = ({
   productOption,
   allVariants,
@@ -7,7 +5,6 @@ const VariantPicker = ({
   onOptionChange
 }) => {
   
-  // 🎯 MATRIX LOGIC: Check karta hai ke kya yeh specific option value baqi selected options ke sath available hai?
   const isCombinationAvailable = (optionName, optionValue) => {
     const testSelection = {
       ...selectedOptions,
@@ -18,7 +15,6 @@ const VariantPicker = ({
       const isMatch = variant.node.selectedOptions.every(
         opt => testSelection[opt.name] === opt.value
       );
-      // Combination match ho aur Shopify par iska availableForSale true ho
       return isMatch && variant.node.availableForSale;
     });
   };
@@ -32,12 +28,10 @@ const VariantPicker = ({
         
         return (
           <div key={option.id} className="flex flex-col gap-2">
-            {/* Option Name & Current Selected Value */}
             <h4 className="text-sm font-semibold text-gray-500 tracking-wide uppercase">
               {option.name}: <span className="text-black font-bold normal-case">{currentSelectedValue}</span>
             </h4>
 
-            {/* Option Values Buttons */}
             <div className="flex flex-wrap gap-2">
               {option.values.map((value, idx) => {
                 const isSelected = currentSelectedValue === value;
@@ -47,11 +41,11 @@ const VariantPicker = ({
                   <button
                     key={`${option.id}-${idx}`}
                     type="button"
-                    disabled={!isAvailable} // 🛑 Agar combination available nahi hai to button disable ho jayega
+                    disabled={!isAvailable}
                     onClick={() => onOptionChange(option.name, value)}
                     className={`px-4 py-2 text-sm font-medium border rounded-md transition-all duration-150 ${
                       isSelected 
-                        ? 'bg-black text-white border-black shadow-sm' // Selected
+                        ? 'bg-black text-white border-black shadow-sm'
                         : !isAvailable 
                         ? 'bg-gray-50 text-gray-300 border-gray-200 line-through cursor-not-allowed opacity-40' // Disabled / Out of Stock
                         : 'bg-white text-gray-800 border-gray-300 hover:border-black active:scale-[0.98]' // Available but Unselected

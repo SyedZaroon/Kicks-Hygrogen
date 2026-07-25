@@ -1,6 +1,5 @@
-// Header.jsx
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import Icon from "../ui/Icon.jsx";
 import SearchFill from "../../assets/icons/fill/SearchFill.jsx";
@@ -25,7 +24,6 @@ const Header = () => {
   return (
     <>
       <header className="bg-white xl:p-8 xl:rounded-3xl flex justify-between items-center p-4 rounded-xl">
-        {/* Navigation Links */}
         <nav className="xl:flex items-center gap-4 font-semibold hidden">
           <Link to="collection/all-products">All Products</Link>
           <Link to="collection/cardboard-boxes">Cardboard Boxes</Link>
@@ -35,7 +33,6 @@ const Header = () => {
           <Link to="collection/labels">Labels</Link>
         </nav>
 
-        {/* Mobile Menu Icon */}
         <div className="block xl:hidden">
           <Icon variant="text" onClick={() => setIsMobileMenuOpen(true)}>
             <BarsFill />
@@ -56,14 +53,12 @@ const Header = () => {
           onClose={() => setIsMobileMenuOpen(false)}
         />
 
-        {/* Logo */}
         <div className="xl:w-32 xl:h-8 w-20 h-5">
           <Link to="/">
             <img src={logo} alt="logo" />
           </Link>
         </div>
 
-        {/* Right Side Icons & Cart Count */}
         <div className="flex xl:gap-10 items-center gap-3">
           <Icon variant="text" onClick={() => setIsSearchOpen(true)}>
             <SearchFill />

@@ -67,12 +67,10 @@ const ProductPage = () => {
           setProduct(productData);
           const allVariants = productData.variants?.edges || [];
 
-          // 1. Incoming URL short ID ko full GID mein convert kar ke search karo
           const urlVariantId = searchParams.get('variant');
           const fullUrlGid = getFullGid(urlVariantId);
           let targetVariant = allVariants.find(v => v.node.id === fullUrlGid);
 
-          // 2. Fallback: Lowest Price variant dhoondo agar URL id invalid ya blank ho
           if (!targetVariant && allVariants.length > 0) {
             const availableVariants = allVariants.filter(v => v.node.availableForSale);
             const scanList = availableVariants.length > 0 ? availableVariants : allVariants;
@@ -81,7 +79,6 @@ const ProductPage = () => {
             )[0];
           }
 
-          // 3. Set Default Selection States
           if (targetVariant) {
             const initialSelection = {};
             targetVariant.node.selectedOptions.forEach(opt => {
@@ -90,7 +87,6 @@ const ProductPage = () => {
             setSelectedOptions(initialSelection);
             setActiveVariant(targetVariant.node);
 
-            // URL Clean formatting apply ho rahi hai
             const variantId = getCleanId(targetVariant.node.id);
             setSearchParams({ variant: variantId }, { replace: true });
           }
@@ -107,7 +103,6 @@ const ProductPage = () => {
     if (handle) fetchProductDetails();
   }, [handle]);
 
-  // 🔄 User option tabdeel kare to state aur URL short id sync rahein
   const handleOptionChange = (optionName, optionValue) => {
     const updatedOptions = { ...selectedOptions, [optionName]: optionValue };
     setSelectedOptions(updatedOptions);
@@ -123,7 +118,6 @@ const ProductPage = () => {
     }
   };
 
-  // Conditional Rendering State Blocks
   if (loading) {
     return <div className="p-10 text-center text-lg font-medium">Loading Product Details...</div>;
   }
@@ -138,13 +132,11 @@ const ProductPage = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col gap-6 md:grid md:grid-cols-[1.5fr_1fr]">
 
-        {/* Main Gallery Area */}
         <ProductGallery
           productImages={product?.images?.edges || []}
           activeVariantImage={activeVariant?.image?.url || product?.featuredImage?.url}
         />
 
-        {/* Product Details Content */}
         <div>
           <div className="flex flex-col gap-4">
             <ProductBadge
@@ -174,7 +166,6 @@ const ProductPage = () => {
               maxStock={activeVariant?.quantityAvailable}
             />
 
-            {/* Add to Cart Trigger Button */}
      <button 
   onClick={async () => {
     try {

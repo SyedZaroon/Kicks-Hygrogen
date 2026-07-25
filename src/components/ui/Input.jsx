@@ -4,7 +4,7 @@ const Input = ({
   type = "text",
   label,
   helperText,
-  placholder, // Note: Aapne prop ka naam 'placholder' rakha hai, wahi use kiya hai.
+  placholder,
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
   helperIcon: HelperIcon,
@@ -19,17 +19,14 @@ const Input = ({
   return (
     <>
       <div className="flex flex-col w-full">
-        {/* Label (if provided) */}
         {label && (
           <label className="mb-2 text-(--color-neutrals-gray-10)" htmlFor={id}>
             {label}
           </label>
         )}
 
-        {/* Input Wrapper Box */}
         <div className={`border border-(--color-darkgray) rounded-lg py-2.5 px-4 flex justify-between items-center ${className}`}>
           
-          {/* Left Side Container (Icon + Native Input) */}
           <div className="flex items-center gap-2 flex-1">
             {LeftIcon && <LeftIcon {...leftIconProps} />}
             <input
@@ -40,7 +37,6 @@ const Input = ({
             />
           </div>
 
-          {/* Right Side Container (Icons) */}
           <div className="flex items-center gap-2">
             {RightIcon && <RightIcon {...rightIconProps} />}
             {HelperIcon && <HelperIcon {...helperIconProps} />}
@@ -48,7 +44,6 @@ const Input = ({
 
         </div>
 
-        {/* Helper Text (if provided) */}
         {helperText && (
           <p className="mt-1 text-(--color-neutrals-gray-9)">
             {helperText}

@@ -22,7 +22,6 @@ export default function HeroSlider({ onNavigate }) {
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
-  // autoplay
   useEffect(() => {
     if (paused) return;
     const prefersReduced =
@@ -34,13 +33,11 @@ export default function HeroSlider({ onNavigate }) {
     return () => clearInterval(t);
   }, [paused, count]);
 
-  // keyboard
   const onKeyDown = (e) => {
     if (e.key === "ArrowRight") next();
     if (e.key === "ArrowLeft") prev();
   };
 
-  // drag / swipe
   const onPointerDown = (e) => {
     dragState.current.dragging = true;
     dragState.current.startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
@@ -89,7 +86,7 @@ export default function HeroSlider({ onNavigate }) {
         {SLIDES.map((slide, i) => (
           <div
             key={slide.id}
-            className="relative w-full flex-shrink-0"
+            className="relative w-full shrink-0"
             style={{ height: "clamp(320px, 55vw, 560px)" }}
             aria-hidden={i !== index}
           >
@@ -146,7 +143,6 @@ export default function HeroSlider({ onNavigate }) {
         ))}
       </div>
 
-      {/* arrows */}
       <button
         onClick={prev}
         aria-label="Previous slide"
@@ -170,7 +166,6 @@ export default function HeroSlider({ onNavigate }) {
         <ArrowRight size={20} color="#fff" />
       </button>
 
-      {/* dots */}
       <div className="absolute bottom-5 left-0 right-0 z-20 flex items-center justify-center gap-2">
         {SLIDES.map((slide, i) => (
           <button
@@ -183,11 +178,10 @@ export default function HeroSlider({ onNavigate }) {
         ))}
       </div>
 
-      {/* autoplay progress (resets each slide) */}
       {!paused && (
         <div
           key={index}
-          className="absolute bottom-0 left-0 h-[3px] z-20 bg-(--color-blue)"
+          className="absolute bottom-0 left-0 h-0.75 z-20 bg-(--color-blue)"
           style={{
             animation: `kicks-progress ${AUTOPLAY_MS}ms linear forwards`,
           }}

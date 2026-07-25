@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Pagination = ({ onPageChange, hasNextPage, hasPreviousPage, loading }) => {
   return (
     <div className="flex justify-center items-center gap-4 mt-12 mb-8">

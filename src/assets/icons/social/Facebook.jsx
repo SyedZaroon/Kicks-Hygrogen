@@ -1,8 +1,6 @@
-import React from "react";
-
 const Facebook = ({ 
   size = 24, 
-  color = "currentColor", // Tailwind classes (jaise text-blue-600) se color control karne ke liye
+  color = "currentColor", 
   className = "" 
 }) => {
   return (

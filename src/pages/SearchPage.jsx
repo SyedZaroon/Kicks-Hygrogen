@@ -16,7 +16,6 @@ export default function SearchPage() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [error, setError] = useState(null);
 
-  // Local input state agar search page par hi dobara search karna ho
   const [inputVal, setInputVal] = useState(searchQuery);
 
   const fetchSearchResults = useCallback(async (cursor = null, direction = null) => {
@@ -40,7 +39,7 @@ export default function SearchPage() {
         body: JSON.stringify({
           query: SEARCH_PRODUCTS_QUERY,
           variables: { 
-            query: searchQuery, // 🔄 Smart search query without 'title:' prefix
+            query: searchQuery, 
             first: 4, 
             after: cursor 
           },
@@ -54,7 +53,6 @@ export default function SearchPage() {
         setProducts(data.edges);
         setHasNextPage(data.pageInfo.hasNextPage);
         
-        // Pagination logic (bilkul CollectionPage jaisi)
         if (direction === 'next') {
           setCursors(prev => [...prev, data.pageInfo.endCursor]);
           setCurrentPage(prev => prev + 1);
@@ -90,7 +88,6 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Optional Search bar on page */}
       <form onSubmit={handleNewSearch} className="mb-8 flex gap-2 max-w-xl">
         <input 
           type="text" 
@@ -126,8 +123,7 @@ export default function SearchPage() {
               }}
             />
     )
-}
-          
+} 
         </>
       )}
     </div>

@@ -18,9 +18,9 @@ const ProductGallery = ({ productImages, activeVariantImage }) => {
   }, [productImages]);
 
   return (
-    <div className="flex gap-6 select-none">
+    <div className="flex gap-6 select-none lg:sticky lg:top-10 flex-col-reverse md:flex-row ">
       {productImages?.length > 1 && (
-        <div className="flex flex-col gap-2 max-h-112 overflow-y-auto">
+        <div className="flex flex-row md:flex-col gap-2 max-h-112 overflow-y-auto">
           {productImages.map((image, index) => {
             const currentThumbUrl = image.node?.url;
             const isActive = mainImage === currentThumbUrl;

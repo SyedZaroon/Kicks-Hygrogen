@@ -132,7 +132,7 @@ const ProductPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
 
-      <div className="flex flex-col gap-6 md:grid md:grid-cols-[1.5fr_1fr]">
+      <div className=" items-stretch flex flex-col gap-6 lg:grid lg:grid-cols-[1.5fr_1fr] lg:items-start ">
 
         <ProductGallery
           productImages={product?.images?.edges || []}

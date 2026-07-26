@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { updateCartQuantity, removeFromCart } from '../utils/cartService';
+import { updateCartQuantity, removeFromCart } from '../service/cartService';
 
 export default function CartPage() {
   const [cart, setCart] = useState(null);

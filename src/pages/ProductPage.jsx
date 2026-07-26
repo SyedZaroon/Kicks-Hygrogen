@@ -9,7 +9,7 @@ import VariantPicker from '../components/product/VariantPicker';
 import QuantitySelector from '../components/product/QuantitySelector';
 import ProductDescription from '../components/product/ProductDescription';
 
-import { addToCart } from '../utils/cartService';
+import { addToCart } from '../service/cartService';
 import { PRODUCT_DETAILS_QUERY } from '../utils/getProductDetails';
 import NotFound from './NotFound';
 
@@ -41,7 +41,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProductDetails = async () => {
-      
+
       setLoading(true);
       setError(null);
       setProduct(null);
@@ -168,29 +168,29 @@ const ProductPage = () => {
               maxStock={activeVariant?.quantityAvailable}
             />
 
-     <button 
-  onClick={async () => {
-    try {
-      await addToCart(activeVariant.id, quantity);
-      alert("Product added to cart!");
-    } catch (e) {
-      console.error("Cart error:", e);
-    }
-  }}
-  disabled={!activeVariant?.availableForSale}
-  className="bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
->
-  Add To Cart
-</button>
+            <button
+              onClick={async () => {
+                try {
+                  await addToCart(activeVariant.id, quantity);
+                  alert("Product added to cart!");
+                } catch (e) {
+                  console.error("Cart error:", e);
+                }
+              }}
+              disabled={!activeVariant?.availableForSale}
+              className="bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            >
+              Add To Cart
+            </button>
           </div>
         </div>
 
       </div>
 
-<div className='mt-12' >
-      <ProductDescription
-        productDescription={product?.description}
-      />
+      <div className='mt-12' >
+        <ProductDescription
+          productDescription={product?.description}
+        />
       </div>
     </div>
   );

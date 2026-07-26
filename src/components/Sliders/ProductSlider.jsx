@@ -5,6 +5,7 @@ import ShoppingBag from "../../assets/icons/fill/ShoppingBag";
 import { useStorefrontQuery } from "../../hooks/useStorefrontQuery";
 import { COLLECTION_PRODUCTS_QUERY } from "../../utils/getAllProducts";
 import { Link } from "react-router-dom";
+import ProductCard from "../collection/ProductCard";
 
 export default function ProductSlider({
   title = "DON'T MISS OUT",
@@ -80,7 +81,7 @@ export default function ProductSlider({
               onClick={() => scrollByCard(-1)}
               disabled={atStart}
               aria-label="Previous products"
-              className="flex items-center justify-center w-9 h-9 rounded-full transition-opacity"
+              className="flex items-center justify-center w-9 h-9 rounded-full transition-opacity cursor-pointer disabled:cursor-not-allowed"
               style={{
                 border: "1px solid var(--color-gray)",
                 opacity: atStart ? 0.35 : 1,
@@ -92,7 +93,7 @@ export default function ProductSlider({
               onClick={() => scrollByCard(1)}
               disabled={atEnd}
               aria-label="Next products"
-              className="flex items-center justify-center w-9 h-9 rounded-full transition-opacity"
+              className="flex items-center justify-center w-9 h-9 rounded-full transition-opacity cursor-pointer disabled:cursor-not-allowed"
               style={{
                 border: "1px solid var(--color-gray)",
                 opacity: atEnd ? 0.35 : 1,
@@ -106,68 +107,25 @@ export default function ProductSlider({
 
       <div
         ref={trackRef}
-        className="kicks-track flex gap-4 overflow-x-auto pb-2"
+        className="kicks-track flex gap-4 overflow-x-auto pb-2 scrollbar-none  "
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {productEdges.map(({ node: p }) => {
           const firstVariant = p.variants?.edges?.[0]?.node;
           const price = firstVariant?.price;
 
           return (
-            <article key={p.id} className="kicks-card shrink-0 group">
-              <div
-                className="relative overflow-hidden rounded-xl mb-3"
-                style={{
-                  backgroundColor: "var(--color-fawhite)",
-                  aspectRatio: "1 / 1",
-                }}
-              >
-                <button
-                  onClick={() => onAddToCart && onAddToCart(p)}
-                  aria-label={`Add ${p.title} to cart`}
-                  className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0"
-                  style={{ backgroundColor: "var(--color-white)" }}
-                >
-                  <ShoppingBag size={15} iconColor="var(--color-darkgray)" />
-                </button>
-                <Link
-                  to={`/collection/all-products/product/${p.handle}`}
-                  className="absolute inset-0 w-full h-full"
-                  aria-label={`View ${p.title}`}
-                >
-                  <img
-                    src={p.featuredImage?.url}
-                    alt={p.featuredImage?.altText || p.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    draggable={false}
-                  />
-                </Link>
-              </div>
-
-              <p
-                className="text-xs mb-1 "
-                style={{ color: "var(--color-graymain)" }}
-              >
-                {p.productType}
-              </p>
-              <button
-                onClick={() => onSelectProduct && onSelectProduct(p)}
-                className="h6 mb-1.5 text-left block"
-                style={{ color: "var(--color-darkgray)" }}
-              >
-                {p.title}
-              </button>
-            </article>
+            <div key={p.id} className="shrink-0 w-[280px] sm:w-[300px]">
+              <ProductCard
+                product={p}
+                price={price}
+                onAddToCart={onAddToCart}
+                onSelectProduct={onSelectProduct}
+              />
+            </div>
           );
         })}
       </div>
-
-      <style>{`
-        .kicks-track { scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
-        .kicks-track::-webkit-scrollbar { display: none; }
-        .kicks-card { scroll-snap-align: start; width: 88%; }
-        @media (min-width: 768px) { .kicks-card { width: calc(50% - 8px); } }
-        @media (min-width: 1024px) { .kicks-card { width: calc(25% - 12px); } }
-      `}</style>
     </section>
   );
 }

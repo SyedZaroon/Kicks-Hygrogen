@@ -178,7 +178,7 @@ const ProductPage = () => {
     }
   }}
   disabled={!activeVariant?.availableForSale}
-  className="..."
+  className="bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
 >
   Add To Cart
 </button>

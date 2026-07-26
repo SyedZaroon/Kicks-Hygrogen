@@ -23,7 +23,7 @@ const ProductCard = ({ product, handle }) => {
     : `/product/${product.handle}`;
 
   return (
-    <div className="group border border-gray-200 rounded-xl p-4 flex flex-col justify-between bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div className="group  rounded-xl p-4 flex flex-col justify-between bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div>
         <div className="w-full h-56 bg-gray-100 rounded-lg overflow-hidden relative mb-3">
           {product.featuredImage ? (
